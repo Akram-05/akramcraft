@@ -1,7 +1,242 @@
-// JavaScript for the portfolio website
+// Add this to your existing script.js file
 
-// FAQ Toggle Functionality
 document.addEventListener('DOMContentLoaded', function() {
+    // Previous code remains here...
+    
+    // Typing animation for the name in the hero section
+    function typeWriter(element, text, speed = 100) {
+        let i = 0;
+        element.textContent = ''; // Clear the text first
+        
+        function type() {
+            if (i < text.length) {
+                element.textContent += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            }
+        }
+        
+        // Start typing
+        type();
+    }
+    
+    // Get the name heading element
+    const nameHeading = document.querySelector('.hero h1');
+    if (nameHeading) {
+        const originalText = nameHeading.textContent;
+        // Start the typing animation after a short delay
+        setTimeout(() => {
+            typeWriter(nameHeading, originalText, 80);
+        }, 500);
+    }
+    
+    // Enhanced scroll animation with intersection observer
+    const observerOptions = {
+        root: null, // use the viewport
+        rootMargin: '0px',
+        threshold: 0.1 // trigger when at least 10% of the element is visible
+    };
+    
+    const animateElements = document.querySelectorAll('.portfolio-item, .blog-card, .about-card, .hero-text p, .hero-text h2, .contact-form, .contact-info, .faq-item');
+    
+    // Hide all elements that should be animated on scroll
+    animateElements.forEach(element => {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(30px)';
+        element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    });
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Element is now visible, trigger animation
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                
+                // Stop observing the element after it's animated
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+    
+    // Start observing all elements that should be animated
+    animateElements.forEach(element => {
+        observer.observe(element);
+    });
+    
+    // Add CSS styling for the animations
+    const animationStyles = document.createElement('style');
+    animationStyles.textContent = `
+        /* Base styles for scroll animations */
+        .portfolio-item, .blog-card, .about-card, .hero-text p, .hero-text h2, .contact-form, .contact-info, .faq-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        /* Staggered animation delay for sections with multiple items */
+        .about-card:nth-child(1) { transition-delay: 0.1s; }
+        .about-card:nth-child(2) { transition-delay: 0.2s; }
+        .about-card:nth-child(3) { transition-delay: 0.3s; }
+        
+        .portfolio-item:nth-child(1) { transition-delay: 0.1s; }
+        .portfolio-item:nth-child(2) { transition-delay: 0.2s; }
+        .portfolio-item:nth-child(3) { transition-delay: 0.3s; }
+        
+        .blog-card:nth-child(1) { transition-delay: 0.1s; }
+        .blog-card:nth-child(2) { transition-delay: 0.2s; }
+        
+        /* Custom cursor effect for the typing animation */
+        .hero h1 {
+            border-right: 2px solid var(--primary-color);
+            white-space: nowrap;
+            overflow: hidden;
+            margin: 0 auto;
+            animation: blinking-cursor 0.8s step-end infinite;
+        }
+        
+        @keyframes blinking-cursor {
+            from, to { border-color: transparent }
+            50% { border-color: var(--primary-color); }
+        }
+    `;
+    
+    document.head.appendChild(animationStyles);
+    
+    // Previous code continues...
+});
+// Combined JavaScript file with preloader and animations
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Add loading class to body
+    document.body.classList.add('loading');
+    
+    // Preloader functionality
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            const preloader = document.getElementById('preloader');
+            
+            // Fade out the preloader
+            preloader.style.opacity = '0';
+            preloader.style.visibility = 'hidden';
+            
+            // Remove loading class from body
+            document.body.classList.remove('loading');
+            
+            // Remove preloader after animation completes
+            setTimeout(function() {
+                if (preloader) {
+                    preloader.style.display = 'none';
+                }
+                
+                // Start the name typing animation after preloader is gone
+                const nameHeading = document.querySelector('.hero h1');
+                if (nameHeading) {
+                    const originalText = nameHeading.textContent;
+                    nameHeading.textContent = '';
+                    nameHeading.style.borderRight = '2px solid var(--primary-color)';
+                    
+                    // Start the typing animation
+                    setTimeout(() => {
+                        typeWriter(nameHeading, originalText, 80);
+                    }, 300);
+                }
+            }, 500);
+        }, 2000); // Show preloader for at least 2 seconds
+    });
+    
+    // Typing animation for the name in the hero section
+    function typeWriter(element, text, speed = 100) {
+        let i = 0;
+        element.textContent = ''; // Clear the text first
+        
+        function type() {
+            if (i < text.length) {
+                element.textContent += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            } else {
+                // Remove the blinking cursor effect when typing is complete
+                element.style.borderRight = 'none';
+            }
+        }
+        
+        // Start typing
+        type();
+    }
+    
+    // Enhanced scroll animation with intersection observer
+    const observerOptions = {
+        root: null, // use the viewport
+        rootMargin: '0px',
+        threshold: 0.1 // trigger when at least 10% of the element is visible
+    };
+    
+    const animateElements = document.querySelectorAll('.portfolio-item, .blog-card, .about-card, .hero-text p, .hero-text h2, .contact-form, .contact-info, .faq-item');
+    
+    // Hide all elements that should be animated on scroll
+    animateElements.forEach(element => {
+        // Skip the name heading as it's handled by the typing animation
+        if (!element.classList.contains('hero h1')) {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(30px)';
+            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        }
+    });
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Element is now visible, trigger animation
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                
+                // Stop observing the element after it's animated
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+    
+    // Start observing all elements that should be animated
+    animateElements.forEach(element => {
+        observer.observe(element);
+    });
+    
+    // Add CSS styling for the animations
+    const animationStyles = document.createElement('style');
+    animationStyles.textContent = `
+        /* Base styles for scroll animations */
+        .portfolio-item, .blog-card, .about-card, .hero-text p, .hero-text h2, .contact-form, .contact-info, .faq-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        /* Staggered animation delay for sections with multiple items */
+        .about-card:nth-child(1) { transition-delay: 0.1s; }
+        .about-card:nth-child(2) { transition-delay: 0.2s; }
+        .about-card:nth-child(3) { transition-delay: 0.3s; }
+        
+        .portfolio-item:nth-child(1) { transition-delay: 0.1s; }
+        .portfolio-item:nth-child(2) { transition-delay: 0.2s; }
+        .portfolio-item:nth-child(3) { transition-delay: 0.3s; }
+        
+        .blog-card:nth-child(1) { transition-delay: 0.1s; }
+        .blog-card:nth-child(2) { transition-delay: 0.2s; }
+        
+        /* Modified cursor effect for the typing animation */
+        .hero h1 {
+            white-space: nowrap;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+    `;
+    
+    document.head.appendChild(animationStyles);
+    
+    // Rest of your existing JavaScript (FAQ toggle, smooth scrolling, etc.)
+    
+    // FAQ Toggle Functionality
     const faqItems = document.querySelectorAll('.faq-item');
     
     faqItems.forEach(item => {
@@ -26,289 +261,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Smooth scrolling for navigation links
-    const navLinks = document.querySelectorAll('header nav a, .footer-links a');
-    
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            
-            if (targetSection) {
-                window.scrollTo({
-                    top: targetSection.offsetTop - 80,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-    
-    // Form submission handling
-    const contactForm = document.querySelector('.contact-form');
-    
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form values
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('pesan').value;
-            
-            // Basic form validation
-            if (!name || !email || !message) {
-                alert('Mohon isi semua field yang diperlukan.');
-                return;
-            }
-            
-            // Here you would typically send the form data to a server
-            // For demonstration, we'll just show a success message
-            alert('Terima kasih! Pesan Anda telah terkirim.');
-            contactForm.reset();
-        });
-    }
-    
-    // Add active class to current navigation item based on scroll position
-    const sections = document.querySelectorAll('section');
-    
-    window.addEventListener('scroll', () => {
-        let current = '';
-        
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            
-            if (pageYOffset >= (sectionTop - 200)) {
-                current = section.getAttribute('id');
-            }
-        });
-        
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${current}`) {
-                link.classList.add('active');
-            }
-        });
-    });
-    
-    // Add a subtle animation when elements come into view
-    const animateOnScroll = () => {
-        const elementsToAnimate = document.querySelectorAll('.portfolio-item, .blog-card, .about-card');
-        
-        elementsToAnimate.forEach(element => {
-            const elementPosition = element.getBoundingClientRect().top;
-            const screenPosition = window.innerHeight / 1.3;
-            
-            if (elementPosition < screenPosition) {
-                element.classList.add('animate');
-            }
-        });
-    };
-    
-    // Call the function on load and scroll
-    animateOnScroll();
-    window.addEventListener('scroll', animateOnScroll);
-    
-    // Mobile navigation toggle
-    const mobileNavToggle = document.createElement('div');
-    mobileNavToggle.className = 'mobile-nav-toggle';
-    mobileNavToggle.innerHTML = '<span></span><span></span><span></span>';
-    
-    const header = document.querySelector('header');
-    const nav = document.querySelector('nav');
-    
-    header.insertBefore(mobileNavToggle, nav);
-    
-    mobileNavToggle.addEventListener('click', () => {
-        nav.classList.toggle('active');
-        mobileNavToggle.classList.toggle('active');
-    });
-    
-    // Close mobile nav when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!nav.contains(e.target) && !mobileNavToggle.contains(e.target) && nav.classList.contains('active')) {
-            nav.classList.remove('active');
-            mobileNavToggle.classList.remove('active');
-        }
-    });
-    
-    // Add CSS class for mobile nav
-    const style = document.createElement('style');
-    style.textContent = `
-        @media screen and (max-width: 768px) {
-            nav {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background-color: white;
-                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-                padding: 20px 0;
-            }
-            
-            nav.active {
-                display: block;
-            }
-            
-            nav ul {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            nav ul li {
-                margin: 10px 0;
-            }
-            
-            .mobile-nav-toggle {
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                width: 30px;
-                height: 25px;
-                cursor: pointer;
-            }
-            
-            .mobile-nav-toggle span {
-                height: 3px;
-                width: 100%;
-                background-color: var(--secondary-color);
-                transition: all 0.3s ease;
-            }
-            
-            .mobile-nav-toggle.active span:nth-child(1) {
-                transform: translateY(11px) rotate(45deg);
-            }
-            
-            .mobile-nav-toggle.active span:nth-child(2) {
-                opacity: 0;
-            }
-            
-            .mobile-nav-toggle.active span:nth-child(3) {
-                transform: translateY(-11px) rotate(-45deg);
-            }
-            
-            .portfolio-item.animate, .blog-card.animate, .about-card.animate {
-                animation: fadeInUp 0.8s ease forwards;
-            }
-            
-            @keyframes fadeInUp {
-                from {
-                    opacity: 0;
-                    transform: translateY(30px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-        }
-    `;
-    
-    document.head.appendChild(style);
-    
-    // Add a back-to-top button
-    const backToTopBtn = document.createElement('button');
-    backToTopBtn.className = 'back-to-top';
-    backToTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
-    document.body.appendChild(backToTopBtn);
-    
-    // Show/hide back-to-top button based on scroll position
-    window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 300) {
-            backToTopBtn.classList.add('show');
-        } else {
-            backToTopBtn.classList.remove('show');
-        }
-    });
-    
-    // Scroll to top when button is clicked
-    backToTopBtn.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-    
-    // Add CSS for back-to-top button
-    const backToTopStyles = document.createElement('style');
-    backToTopStyles.textContent = `
-        .back-to-top {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 99;
-        }
-        
-        .back-to-top.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .back-to-top:hover {
-            background-color: #009e70;
-            transform: translateY(-3px);
-        }
-    `;
-    
-    document.head.appendChild(backToTopStyles);
-    
-    // Simple image lazy loading
-    const images = document.querySelectorAll('img');
-    
-    if ('IntersectionObserver' in window) {
-        const imageObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    const src = img.getAttribute('data-src');
-                    
-                    if (src) {
-                        img.src = src;
-                        img.removeAttribute('data-src');
-                    }
-                    
-                    imageObserver.unobserve(img);
-                }
-            });
-        });
-        
-        images.forEach(img => {
-            const src = img.src;
-            img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"%3E%3C/svg%3E';
-            img.setAttribute('data-src', src);
-            imageObserver.observe(img);
-        });
-    }
-    
-    // Add subtle hover effects to buttons and links
-    const buttons = document.querySelectorAll('.btn');
-    
-    buttons.forEach(button => {
-        button.addEventListener('mouseenter', function() {
-            this.style.transition = 'all 0.3s ease';
-            this.style.transform = 'translateY(-3px)';
-            this.style.boxShadow = '0 5px 15px rgba(0, 182, 130, 0.3)';
-        });
-        
-        button.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-            this.style.boxShadow = 'none';
-        });
-    });
+    // Keep rest of your original code...
 });

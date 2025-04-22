@@ -614,3 +614,108 @@ footer a:hover {
 .faq-item.active .toggle-icon {
     transform: rotate(45deg);
 }
+/* Add this to your CSS file */
+
+/* Preloader Styles */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+.loader {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+}
+
+.loader .inner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: var(--primary-color);
+    animation: spin 1s linear infinite;
+}
+
+.loader .inner.one {
+    animation-delay: 0s;
+}
+
+.loader .inner.two {
+    width: 60px;
+    height: 60px;
+    top: 10px;
+    left: 10px;
+    border-top-color: var(--secondary-color);
+    animation-delay: 0.2s;
+}
+
+.loader .inner.three {
+    width: 40px;
+    height: 40px;
+    top: 20px;
+    left: 20px;
+    border-top-color: var(--primary-color);
+    animation-delay: 0.4s;
+}
+
+.loading-text {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-top: 10px;
+    position: relative;
+    letter-spacing: 3px;
+}
+
+.loading-text:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background-color: var(--primary-color);
+    animation: loadingBar 2s ease-in-out infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes loadingBar {
+    0%, 100% {
+        width: 0;
+    }
+    50% {
+        width: 100%;
+    }
+}
+
+/* Hide content while loading */
+body.loading {
+    overflow: hidden;
+}
+
+body.loading main,
+body.loading header,
+body.loading section {
+    opacity: 0;
+}
