@@ -422,7 +422,7 @@ nav ul li a:hover {
 }
 
 .form-group textarea {
-    height: 150px;
+    height: 80px;
     resize: vertical;
 }
 
