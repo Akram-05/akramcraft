@@ -1,22 +1,36 @@
-/* Global Styles */
-* {
+/* ==============================
+   1. CSS RESET & BASE STYLES
+   ============================== */
+   *, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
 }
 
 :root {
+    /* Color variables */
     --primary-color: #00b682;
+    --primary-dark: #009e70;
+    --primary-light: #f0fffa;
     --secondary-color: #333333;
     --background-color: #ffffff;
     --light-gray: #f8f9fa;
     --dark-gray: #6c757d;
     --text-color: #333333;
+    --border-color: #eeeeee;
+    
+    /* Typography */
+    --font-main: 'Poppins', sans-serif;
+    
+    /* Sizes */
     --border-radius: 8px;
+    --container-width: 1200px;
+    --section-spacing: 80px;
+    --card-spacing: 30px;
 }
 
 body {
+    font-family: var(--font-main);
     color: var(--text-color);
     background-color: var(--background-color);
     line-height: 1.6;
@@ -25,6 +39,7 @@ body {
 a {
     text-decoration: none;
     color: inherit;
+    transition: color 0.3s ease;
 }
 
 ul {
@@ -34,8 +49,12 @@ ul {
 img {
     max-width: 100%;
     height: auto;
+    display: block;
 }
 
+/* ==============================
+   2. COMMON ELEMENTS
+   ============================== */
 .section-title {
     text-align: center;
     margin-bottom: 50px;
@@ -65,19 +84,57 @@ img {
     border: none;
     font-weight: 500;
     cursor: pointer;
+    text-align: center;
 }
 
 .btn:hover {
-    background-color: #009e70;
+    background-color: var(--primary-dark);
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(0, 182, 130, 0.3);
 }
 
-section {
-    padding: 80px 0;
+.card-icon {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
 }
 
-/* Header and Navigation */
+.read-more {
+    color: var(--primary-color);
+    font-weight: 500;
+    display: inline-block;
+    margin-top: 10px;
+    position: relative;
+}
+
+.read-more:after {
+    content: "→";
+    margin-left: 5px;
+    transition: transform 0.3s ease;
+}
+
+.read-more:hover:after {
+    transform: translateX(5px);
+}
+
+section {
+    padding: var(--section-spacing) 0;
+}
+
+/* Container for all grid layouts */
+.about-grid,
+.portfolio-grid,
+.blog-grid,
+.contact-container,
+.footer-content {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ==============================
+   3. HEADER & NAVIGATION
+   ============================== */
 header {
     display: flex;
     justify-content: space-between;
@@ -107,16 +164,34 @@ nav ul li {
 nav ul li a {
     font-weight: 500;
     transition: color 0.3s ease;
+    position: relative;
 }
 
 nav ul li a:hover {
     color: var(--primary-color);
 }
 
-/* Hero Section */
+nav ul li a:after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+nav ul li a:hover:after {
+    width: 100%;
+}
+
+/* ==============================
+   4. HERO SECTION
+   ============================== */
 .hero {
     padding: 100px 5%;
-    background-color: #f0fffa;
+    background-color: var(--primary-light);
     position: relative;
     overflow: hidden;
 }
@@ -125,13 +200,13 @@ nav ul li a:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 1200px;
+    max-width: var(--container-width);
     margin: 0 auto;
+    gap: 50px;
 }
 
 .hero-text {
     flex: 1;
-    padding-right: 50px;
 }
 
 .greeting {
@@ -172,6 +247,7 @@ nav ul li a:hover {
     overflow: hidden;
     border: 5px solid rgba(0, 182, 130, 0.3);
     background-color: rgba(0, 182, 130, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 182, 130, 0.2);
 }
 
 .image-container img {
@@ -180,7 +256,9 @@ nav ul li a:hover {
     object-fit: cover;
 }
 
-/* About Section */
+/* ==============================
+   5. ABOUT SECTION
+   ============================== */
 .about {
     background-color: var(--light-gray);
 }
@@ -188,10 +266,7 @@ nav ul li a:hover {
 .about-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    gap: var(--card-spacing);
 }
 
 .about-card {
@@ -199,17 +274,12 @@ nav ul li a:hover {
     padding: 30px;
     border-radius: var(--border-radius);
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .about-card:hover {
     transform: translateY(-10px);
-}
-
-.card-icon {
-    font-size: 2rem;
-    color: var(--primary-color);
-    margin-bottom: 20px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
 
 .about-card h3 {
@@ -231,7 +301,9 @@ nav ul li a:hover {
     left: 0;
 }
 
-/* Portfolio Section */
+/* ==============================
+   6. PORTFOLIO SECTION
+   ============================== */
 .portfolio {
     background-color: var(--background-color);
 }
@@ -239,10 +311,7 @@ nav ul li a:hover {
 .portfolio-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    gap: var(--card-spacing);
 }
 
 .portfolio-item {
@@ -250,17 +319,23 @@ nav ul li a:hover {
     border-radius: var(--border-radius);
     overflow: hidden;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .portfolio-item:hover {
     transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
 .portfolio-item img {
     width: 100%;
     height: 200px;
     object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.portfolio-item:hover img {
+    transform: scale(1.05);
 }
 
 .item-content {
@@ -277,7 +352,9 @@ nav ul li a:hover {
     color: var(--dark-gray);
 }
 
-/* Blog Section */
+/* ==============================
+   7. BLOG SECTION
+   ============================== */
 .blog {
     background-color: var(--light-gray);
 }
@@ -285,10 +362,7 @@ nav ul li a:hover {
 .blog-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    gap: var(--card-spacing);
 }
 
 .blog-card {
@@ -296,17 +370,23 @@ nav ul li a:hover {
     border-radius: var(--border-radius);
     overflow: hidden;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .blog-card:hover {
     transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
 .blog-card img {
     width: 100%;
     height: 200px;
     object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.blog-card:hover img {
+    transform: scale(1.05);
 }
 
 .blog-content {
@@ -324,7 +404,9 @@ nav ul li a:hover {
     margin-bottom: 10px;
 }
 
-/* FAQ Section */
+/* ==============================
+   8. FAQ SECTION
+   ============================== */
 .faq {
     background-color: var(--background-color);
 }
@@ -337,9 +419,14 @@ nav ul li a:hover {
 
 .faq-item {
     margin-bottom: 20px;
-    border: 1px solid #eee;
+    border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     overflow: hidden;
+    transition: box-shadow 0.3s ease;
+}
+
+.faq-item:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .faq-question {
@@ -361,13 +448,14 @@ nav ul li a:hover {
 .toggle-icon {
     font-size: 1.5rem;
     color: var(--primary-color);
+    transition: transform 0.3s ease;
 }
 
 .faq-answer {
     padding: 0 20px;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease;
+    transition: max-height 0.3s ease, padding 0.3s ease;
 }
 
 .faq-item.active .faq-answer {
@@ -375,7 +463,13 @@ nav ul li a:hover {
     max-height: 500px;
 }
 
-/* Contact Section */
+.faq-item.active .toggle-icon {
+    transform: rotate(45deg);
+}
+
+/* ==============================
+   9. CONTACT SECTION
+   ============================== */
 .contact {
     background-color: var(--light-gray);
 }
@@ -384,9 +478,6 @@ nav ul li a:hover {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 50px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
 }
 
 .contact-form {
@@ -413,16 +504,23 @@ nav ul li a:hover {
     border: 1px solid #ddd;
     border-radius: var(--border-radius);
     font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0, 182, 130, 0.2);
 }
 
 .form-group textarea {
-    height: 80px;
+    height: 120px;
     resize: vertical;
 }
 
 .btn-submit {
     width: 100%;
-    text-align: center;
 }
 
 .contact-info {
@@ -439,10 +537,22 @@ nav ul li a:hover {
     font-size: 1.5rem;
     margin-bottom: 20px;
     color: var(--secondary-color);
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.info-group h3:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 2px;
+    background-color: var(--primary-color);
 }
 
 .info-group p {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     display: flex;
     align-items: center;
 }
@@ -450,6 +560,7 @@ nav ul li a:hover {
 .info-group p i {
     margin-right: 10px;
     color: var(--primary-color);
+    width: 20px;
 }
 
 .social-links {
@@ -466,14 +577,17 @@ nav ul li a:hover {
     background-color: var(--primary-color);
     color: white;
     border-radius: 50%;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .social-links a:hover {
     transform: translateY(-5px);
+    background-color: var(--primary-dark);
 }
 
-/* Footer */
+/* ==============================
+   10. FOOTER
+   ============================== */
 footer {
     background-color: #333;
     color: white;
@@ -484,9 +598,6 @@ footer {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
 }
 
 .footer-about,
@@ -515,6 +626,11 @@ footer h3:after {
 
 footer ul li {
     margin-bottom: 10px;
+    transition: transform 0.3s ease;
+}
+
+footer ul li:hover {
+    transform: translateX(5px);
 }
 
 footer a {
@@ -528,12 +644,13 @@ footer a:hover {
 .footer-contact p {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .footer-contact p i {
     margin-right: 10px;
     color: var(--primary-color);
+    width: 20px;
 }
 
 .footer-bottom {
@@ -543,74 +660,9 @@ footer a:hover {
     margin-top: 30px;
 }
 
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-    header {
-        flex-direction: column;
-        padding: 15px;
-    }
-    
-    nav ul {
-        margin-top: 15px;
-    }
-    
-    nav ul li {
-        margin-left: 15px;
-        margin-right: 15px;
-    }
-    
-    .hero-content {
-        flex-direction: column-reverse;
-    }
-    
-    .hero-text {
-        padding-right: 0;
-        text-align: center;
-        margin-top: 30px;
-    }
-    
-    .image-container {
-        width: 250px;
-        height: 250px;
-    }
-    
-    .section-title {
-        font-size: 1.8rem;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .hero h1 {
-        font-size: 2.2rem;
-    }
-    
-    .hero h2 {
-        font-size: 1.3rem;
-    }
-    
-    .image-container {
-        width: 200px;
-        height: 200px;
-    }
-    
-    .about-grid,
-    .portfolio-grid,
-    .blog-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .footer-content {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Add JavaScript functionality for FAQ toggle */
-.faq-item.active .toggle-icon {
-    transform: rotate(45deg);
-}
-/* Add this to your CSS file */
-
-/* Preloader Styles */
+/* ==============================
+   11. PRELOADER
+   ============================== */
 #preloader {
     position: fixed;
     top: 0;
@@ -712,4 +764,105 @@ body.loading main,
 body.loading header,
 body.loading section {
     opacity: 0;
+}
+
+/* ==============================
+   12. RESPONSIVE DESIGN
+   ============================== */
+@media screen and (max-width: 1024px) {
+    :root {
+        --section-spacing: 60px;
+    }
+    
+    .hero-content {
+        gap: 30px;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    :root {
+        --section-spacing: 50px;
+        --card-spacing: 20px;
+    }
+    
+    header {
+        flex-direction: column;
+        padding: 15px;
+    }
+    
+    nav ul {
+        margin-top: 15px;
+    }
+    
+    nav ul li {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+    
+    .hero-content {
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+    
+    .hero-text {
+        padding-right: 0;
+    }
+    
+    .image-container {
+        width: 250px;
+        height: 250px;
+        margin-bottom: 20px;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .contact-container {
+        gap: 30px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    :root {
+        --section-spacing: 40px;
+    }
+    
+    .hero {
+        padding: 60px 5%;
+    }
+    
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+    
+    .hero h2 {
+        font-size: 1.3rem;
+    }
+    
+    .image-container {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .about-grid,
+    .portfolio-grid,
+    .blog-grid,
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .section-title {
+        font-size: 1.6rem;
+    }
+    
+    .about-card, 
+    .portfolio-item, 
+    .blog-card {
+        padding: 20px;
+    }
 }
