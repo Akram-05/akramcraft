@@ -324,12 +324,6 @@ nav ul li a:hover {
     margin-bottom: 10px;
 }
 
-.blog-date {
-    display: block;
-    font-size: 0.9rem;
-    color: var(--primary-color);
-}
-
 /* FAQ Section */
 .faq {
     background-color: var(--background-color);

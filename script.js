@@ -1,5 +1,3 @@
-// Add this to your existing script.js file
-
 document.addEventListener('DOMContentLoaded', function() {
     // Previous code remains here...
     
